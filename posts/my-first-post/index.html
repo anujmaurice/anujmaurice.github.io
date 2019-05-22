@@ -8,13 +8,13 @@
 		
 		
 		<meta name="generator" content="Hugo 0.55.5" />
-		<title>My First Post &middot; My New Hugo Site</title>
-		<link rel="shortcut icon" href="http://anujmaurice.github.io/images/favicon.ico">
-		<link rel="stylesheet" href="http://anujmaurice.github.io/css/style.css">
-		<link rel="stylesheet" href="http://anujmaurice.github.io/css/highlight.css">
+		<title>**strace, lstrace and more** &middot; fooled.in</title>
+		<link rel="shortcut icon" href="https://anujmaurice.github.io/images/favicon.ico">
+		<link rel="stylesheet" href="https://anujmaurice.github.io/css/style.css">
+		<link rel="stylesheet" href="https://anujmaurice.github.io/css/highlight.css">
 
 		
-		<link rel="stylesheet" href="http://anujmaurice.github.io/css/monosocialiconsfont.css">
+		<link rel="stylesheet" href="https://anujmaurice.github.io/css/monosocialiconsfont.css">
 		
 
 		
@@ -26,11 +26,11 @@
        <nav class="main-nav">
 	
 	
-		<a href='http://anujmaurice.github.io/'> <span class="arrow">←</span>Home</a>
+		<a href='https://anujmaurice.github.io/'> <span class="arrow">←</span>Home</a>
 	
-	<a href='http://anujmaurice.github.io/posts'>Archive</a>
-	<a href='http://anujmaurice.github.io/tags'>Tags</a>
-	<a href='http://anujmaurice.github.io/about'>About</a>
+	<a href='https://anujmaurice.github.io/posts'>Archive</a>
+	<a href='https://anujmaurice.github.io/tags'>Tags</a>
+	<a href='https://anujmaurice.github.io/about'>About</a>
 
 	
 
@@ -42,12 +42,12 @@
             <article>
                 <header>
                     <h1>
-                        My First Post
+                        **strace, lstrace and more**
                     </h1>
                     <h2 class="headline">
                     May 18, 2019 08:26
-                    · 1 word
-                    · 1 minute read
+                    · 276 words
+                    · 2 minute read
                       <span class="tags">
                       
                       </span>
@@ -55,7 +55,66 @@
                 </header>
                 
                 <section id="post-body">
-                    <p>Hello</p>
+                    
+
+<h1 id="strace-ltrace-and-more">strace, ltrace and more</h1>
+
+<h2 id="overview">Overview</h2>
+
+<p>Strace is a command line tool for intercepting system calls for tracing the process. This is commonly used by for debugging and understanding the state of the system.</p>
+
+<p>How it works</p>
+
+<p>command options</p>
+
+<pre><code>strace -tttT -p &lt;pid&gt;
+///-ttt prints time in epoch
+// -T prints time spend on each system call
+</code></pre>
+
+<p>The summary information includes the total number of calls, number of calls that failed and the total time spent executing the calls</p>
+
+<pre><code>$ sudo strace -c date
+Sat May 18 22:43:32 PDT 2019
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 18.72    0.000070           7        10           mmap
+ 14.17    0.000053          18         3           munmap
+ 13.64    0.000051          13         4           open
+ 10.43    0.000039          10         4           mprotect
+ 10.16    0.000038          38         1         1 access
+  8.56    0.000032           8         4           brk
+  7.22    0.000027           9         3           read
+  6.95    0.000026          26         1           write
+  3.48    0.000013          13         1           execve
+  3.21    0.000012           2         6           close
+  2.67    0.000010           2         6           fstat
+  0.53    0.000002           2         1           lseek
+  0.27    0.000001           1         1           arch_prctl
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.000374                    45         1 total
+$
+</code></pre>
+
+<pre><code>[root@testhost ~]# strace -p 28857
+strace: Process 28857 attached
+futex(0x7fcf6849c9d0, FUTEX_WAIT, 553, NULL
+</code></pre>
+
+<pre><code>[root@testhost ~]# strace -p -f 28857
+</code></pre>
+
+<pre><code># strace -e -o straceoutfile trace=open,close date
+</code></pre>
+
+<p>When using the above techinique in few cases the true name of the system call differes from the name of the <code>glibc</code> wrapper.<br />
+If <code>-ff</code> is used along with <code>-o</code>each processes trace is written to filename.pid where pid is the numeric process id of each process. This is incompatible with -c, since no per-process counts are kept.</p>
+
+<p><strong>Reference</strong></p>
+
+<p><a href="http://www.brendangregg.com/blog/2014-05-11/strace-wow-much-syscall.html">http://www.brendangregg.com/blog/2014-05-11/strace-wow-much-syscall.html</a><br />
+The Linux programming interface - Michael Kerrisk<br />
+Man page of strace</p>
 
                 </section>
             </article>
@@ -80,9 +139,9 @@
 
         </section>
 
-        <script src="http://anujmaurice.github.io/js/jquery-3.3.1.min.js"></script>
-<script src="http://anujmaurice.github.io/js/main.js"></script>
-<script src="http://anujmaurice.github.io/js/highlight.min.js"></script>
+        <script src="https://anujmaurice.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://anujmaurice.github.io/js/main.js"></script>
+<script src="https://anujmaurice.github.io/js/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
 
